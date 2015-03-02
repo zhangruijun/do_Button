@@ -1,0 +1,6 @@
+D:\MyWork\Designer\windows7\do-workstudio\win7src\UIControls\Button\doButton\bin\Debug\doUIViewDesign.Button.dll
+D:\MyWork\Designer\windows7\do-workstudio\win7src\UIControls\Button\doButton\bin\Debug\doUIViewDesign.Button.pdb
+D:\MyWork\Designer\windows7\do-workstudio\win7src\UIControls\Button\doButton\bin\Debug\doControlLib.dll
+D:\MyWork\Designer\windows7\do-workstudio\win7src\UIControls\Button\doButton\obj\Debug\doButton.csprojResolveAssemblyReference.cache
+D:\MyWork\Designer\windows7\do-workstudio\win7src\UIControls\Button\doButton\obj\Debug\doUIViewDesign.Button.dll
+D:\MyWork\Designer\windows7\do-workstudio\win7src\UIControls\Button\doButton\obj\Debug\doUIViewDesign.Button.pdb
