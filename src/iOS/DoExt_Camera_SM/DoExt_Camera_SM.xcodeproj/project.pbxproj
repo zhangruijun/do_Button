@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A4917C4B1A78940200FFB148 /* Do_Camera_SM.m in Sources */ = {isa = PBXBuildFile; fileRef = A4917C4A1A78940200FFB148 /* Do_Camera_SM.m */; };
+		A4917C4B1A78940200FFB148 /* DoExt_Camera_SM.m in Sources */ = {isa = PBXBuildFile; fileRef = A4917C4A1A78940200FFB148 /* DoExt_Camera_SM.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,9 +23,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A4917C471A78940200FFB148 /* Do_Camera_ISM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Do_Camera_ISM.h; sourceTree = "<group>"; };
-		A4917C491A78940200FFB148 /* Do_Camera_SM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Do_Camera_SM.h; sourceTree = "<group>"; };
-		A4917C4A1A78940200FFB148 /* Do_Camera_SM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Do_Camera_SM.m; sourceTree = "<group>"; };
+		A4917C471A78940200FFB148 /* DoExt_Camera_ISM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoExt_Camera_ISM.h; sourceTree = "<group>"; };
+		A4917C491A78940200FFB148 /* DoExt_Camera_SM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoExt_Camera_SM.h; sourceTree = "<group>"; };
+		A4917C4A1A78940200FFB148 /* DoExt_Camera_SM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoExt_Camera_SM.m; sourceTree = "<group>"; };
 		A4E1EABD1A778F1700F0B3CE /* libDoExt_Camera_SM.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDoExt_Camera_SM.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4E1EADC1A778F8200F0B3CE /* Do_Camera_SM.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Do_Camera_SM.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -44,7 +44,7 @@
 		A4917C461A78940200FFB148 /* ext_define */ = {
 			isa = PBXGroup;
 			children = (
-				A4917C471A78940200FFB148 /* Do_Camera_ISM.h */,
+				A4917C471A78940200FFB148 /* DoExt_Camera_ISM.h */,
 			);
 			path = ext_define;
 			sourceTree = "<group>";
@@ -52,8 +52,8 @@
 		A4917C481A78940200FFB148 /* ext_implement */ = {
 			isa = PBXGroup;
 			children = (
-				A4917C491A78940200FFB148 /* Do_Camera_SM.h */,
-				A4917C4A1A78940200FFB148 /* Do_Camera_SM.m */,
+				A4917C491A78940200FFB148 /* DoExt_Camera_SM.h */,
+				A4917C4A1A78940200FFB148 /* DoExt_Camera_SM.m */,
 			);
 			path = ext_implement;
 			sourceTree = "<group>";
@@ -132,7 +132,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A4917C4B1A78940200FFB148 /* Do_Camera_SM.m in Sources */,
+				A4917C4B1A78940200FFB148 /* DoExt_Camera_SM.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

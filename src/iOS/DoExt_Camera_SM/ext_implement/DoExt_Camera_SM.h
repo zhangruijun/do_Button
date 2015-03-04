@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 DoExt. All rights reserved.
 //
 
-#import "Do_Camera_ISM.h"
+#import "DoExt_Camera_ISM.h"
 #import "doSingletonModule.h"
 
-@interface Do_Camera_SM : doSingletonModule<Do_Camera_ISM>
+@interface DoExt_Camera_SM : doSingletonModule<DoExt_Camera_ISM>
 
 @end
