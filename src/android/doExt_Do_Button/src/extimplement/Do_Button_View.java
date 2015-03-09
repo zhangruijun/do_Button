@@ -134,17 +134,17 @@ public class Do_Button_View extends Button implements DoIUIModuleView, Do_Button
 
 	// =========================================================================
 	private void doButtonView_Touch() {
-		DoInvokeResult _invokeResult = new DoInvokeResult();
+		DoInvokeResult _invokeResult = new DoInvokeResult(this.model.getUniqueKey());
 		this.model.getEventCenter().fireEvent("touch", _invokeResult);
 	}
 
 	private void doButtonView_TouchUp() {
-		DoInvokeResult _invokeResult = new DoInvokeResult();
+		DoInvokeResult _invokeResult = new DoInvokeResult(this.model.getUniqueKey());
 		this.model.getEventCenter().fireEvent("touchup", _invokeResult);
 	}
 
 	private void doButtonView_TouchDown() {
-		DoInvokeResult _invokeResult = new DoInvokeResult();
+		DoInvokeResult _invokeResult = new DoInvokeResult(this.model.getUniqueKey());
 		this.model.getEventCenter().fireEvent("touchdown", _invokeResult);
 	}
 
