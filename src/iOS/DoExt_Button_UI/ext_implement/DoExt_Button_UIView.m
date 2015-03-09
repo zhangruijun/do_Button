@@ -112,58 +112,7 @@
     [self setBackgroundImage:img forState:UIControlStateNormal];
 }
 
-#pragma mark -
-#pragma mark - 同步异步方法的实现
-/*
-    1.参数节点
-        doJsonNode *_dictParas = [parms objectAtIndex:0];
-        在节点中，获取对应的参数
-        NSString *title = [_dictParas GetOneText:@"title" :@"" ];
-        说明：第一个参数为对象名，第二为默认值
- 
-    2.脚本运行时的引擎
-        id<doIScriptEngine> _scritEngine = [parms objectAtIndex:1];
- 
- 同步：
-    3.同步回调对象(有回调需要添加如下代码)
-        doInvokeResult *_invokeResult = [parms objectAtIndex:2];
-        回调信息
-        如：（回调一个字符串信息）
-        [_invokeResult SetResultText:((doUIModule *)_model).UniqueKey];
- 异步：
-    3.获取回调函数名(异步方法都有回调)
-        NSString *_callbackName = [parms objectAtIndex:2];
-        在合适的地方进行下面的代码，完成回调
-        新建一个回调对象
-        doInvokeResult *_invokeResult = [[doInvokeResult alloc] init];
-        填入对应的信息
-        如：（回调一个字符串）
-        [_invokeResult SetResultText: @"异步方法完成"];
-        [_scritEngine Callback:_callbackName :_invokeResult];
- */
-
-- (BOOL)InvokeSyncMethod:(NSString *)_methodName :(doJsonNode *)_dictParas :(id<doIScriptEngine>) _scriptEngine :(doInvokeResult *)_invokeResult
-{
-    return [doScriptEngineHelper InvokeSyncSelector:self : _methodName :_dictParas :_scriptEngine :_invokeResult];
-}
-
-- (BOOL) InvokeAsyncMethod: (NSString *) _methodName : (doJsonNode *) _dicParas :(id<doIScriptEngine>) _scriptEngine : (NSString *) _callbackFuncName
-{
-    return [doScriptEngineHelper InvokeASyncSelector:self : _methodName :_dicParas :_scriptEngine: _callbackFuncName];
-}
-
-#pragma mark - doIUIModuleView协议方法（必须）<大部分情况不需修改>
-- (BOOL) OnPropertiesChanging: (NSMutableDictionary *) _changedValues
-{
-    //属性改变时,返回NO，将不会执行Changed方法
-    return YES;
-}
-- (void) OnPropertiesChanged: (NSMutableDictionary*) _changedValues
-{
-    //_model的属性进行修改，同时调用self的对应的属性方法，修改视图
-    [doUIModuleHelper HandleViewProperChanged: self :model : _changedValues ];
-}
-
+#pragma mark - event
 -(void)fingerTouch:(DoExt_Button_UIView *) _doButtonView
 {
     doInvokeResult* _invokeResult = [[doInvokeResult alloc]init:model.UniqueKey];
@@ -181,6 +130,26 @@
     [model.EventCenter FireEvent:@"touchup":_invokeResult];
 }
 
+#pragma mark - doIUIModuleView协议方法（必须）<大部分情况不需修改>
+- (BOOL) OnPropertiesChanging: (NSMutableDictionary *) _changedValues
+{
+    //属性改变时,返回NO，将不会执行Changed方法
+    return YES;
+}
+- (void) OnPropertiesChanged: (NSMutableDictionary*) _changedValues
+{
+    //_model的属性进行修改，同时调用self的对应的属性方法，修改视图
+    [doUIModuleHelper HandleViewProperChanged: self :model : _changedValues ];
+}
+- (BOOL)InvokeSyncMethod:(NSString *)_methodName :(doJsonNode *)_dictParas :(id<doIScriptEngine>) _scriptEngine :(doInvokeResult *)_invokeResult
+{
+    return [doScriptEngineHelper InvokeSyncSelector:self : _methodName :_dictParas :_scriptEngine :_invokeResult];
+}
+
+- (BOOL) InvokeAsyncMethod: (NSString *) _methodName : (doJsonNode *) _dicParas :(id<doIScriptEngine>) _scriptEngine : (NSString *) _callbackFuncName
+{
+    return [doScriptEngineHelper InvokeASyncSelector:self : _methodName :_dicParas :_scriptEngine: _callbackFuncName];
+}
 - (doUIModule *) GetModel
 {
     //获取model对象
