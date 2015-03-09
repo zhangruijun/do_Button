@@ -11,7 +11,7 @@
 #import "DoExt_Button_UIModel.h"
 #import "doIUIModuleView.h"
 
-@interface DoExt_Button_UIView : UIButton<Do_Button_IView,doIUIModuleView>
+@interface DoExt_Button_UIView : UIButton<DoExt_Button_IView,doIUIModuleView>
 //可根据具体实现替换UIView
 {
     @private

@@ -12,7 +12,7 @@
 #import "doIScriptEngine.h"
 #import "doInvokeResult.h"
 
-@protocol Do_Button_IView <NSObject>
+@protocol DoExt_Button_IView <NSObject>
 
 @required
 - (void)change_text:(NSString *)newValue;
