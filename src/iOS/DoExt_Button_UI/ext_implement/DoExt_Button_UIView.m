@@ -67,9 +67,9 @@
 - (void)change_fontSize:(NSString *)newValue{
     UIFont * font = self.titleLabel.font;
     if (font == nil) {
-        font = [UIFont systemFontOfSize:13];
+        font = [UIFont systemFontOfSize:[[model GetProperty:@"fontSize"].DefaultValue intValue]];
     }
-    int _intFontSize = [[doTextHelper Instance] StrToInt:newValue :9];
+    int _intFontSize = [doUIModuleHelper GetDeviceFontSize:[[doTextHelper Instance] StrToInt:newValue :[[model GetProperty:@"fontSize"].DefaultValue intValue]] :model.XZoom :model.YZoom];
     self.titleLabel.font = [font fontWithSize:_intFontSize];//z012
 }
 - (void)change_fontStyle:(NSString *)newValue{
@@ -96,7 +96,6 @@
         NSRange contentRange = {0,[content length]};
         [content addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];
         self.titleLabel.attributedText = content;
-        
     }
 }
 - (void)change_radius:(NSString *)newValue{
