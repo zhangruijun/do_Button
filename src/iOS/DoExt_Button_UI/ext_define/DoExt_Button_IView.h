@@ -22,8 +22,4 @@
 - (void)change_radius:(NSString *)newValue;
 - (void)change_bgImage:(NSString *)newValue;
 
-- (BOOL)InvokeSyncMethod:(NSString *)_methodName :(doJsonNode *)_dictParas :(id<doIScriptEngine>) _scriptEngine :(doInvokeResult *)_invokeResult;
-
-- (BOOL) InvokeAsyncMethod: (NSString *) _methodName : (doJsonNode *) _dicParas :(id<doIScriptEngine>) _scriptEngine : (NSString *) _callbackFuncName;
-
 @end
