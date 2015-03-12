@@ -1,6 +1,6 @@
-D:\MyWork\designer_comp\do_Button\src\designer\do_Button\do_Button\bin\Debug\doUIViewDesign.Button.dll
-D:\MyWork\designer_comp\do_Button\src\designer\do_Button\do_Button\bin\Debug\doUIViewDesign.Button.pdb
 D:\MyWork\designer_comp\do_Button\src\designer\do_Button\do_Button\bin\Debug\doControlLib.dll
 D:\MyWork\designer_comp\do_Button\src\designer\do_Button\do_Button\obj\Debug\do_Button.csprojResolveAssemblyReference.cache
-D:\MyWork\designer_comp\do_Button\src\designer\do_Button\do_Button\obj\Debug\doUIViewDesign.Button.dll
-D:\MyWork\designer_comp\do_Button\src\designer\do_Button\do_Button\obj\Debug\doUIViewDesign.Button.pdb
+D:\MyWork\designer_comp\do_Button\src\designer\do_Button\do_Button\bin\Debug\doUIViewDesign.do_Button.dll
+D:\MyWork\designer_comp\do_Button\src\designer\do_Button\do_Button\bin\Debug\doUIViewDesign.do_Button.pdb
+D:\MyWork\designer_comp\do_Button\src\designer\do_Button\do_Button\obj\Debug\doUIViewDesign.do_Button.dll
+D:\MyWork\designer_comp\do_Button\src\designer\do_Button\do_Button\obj\Debug\doUIViewDesign.do_Button.pdb
