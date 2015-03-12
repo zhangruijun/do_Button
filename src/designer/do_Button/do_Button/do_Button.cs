@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace doUIViewDesign
 {
-    class doButton : doComponentUIView
+    class do_Button : doComponentUIView
     {
         public override void DrawControl(int _x, int _y, int _width, int _height, Graphics g)
         {
