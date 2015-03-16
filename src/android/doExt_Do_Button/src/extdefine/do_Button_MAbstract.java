@@ -5,9 +5,9 @@ import core.object.DoProperty;
 import core.object.DoProperty.PropertyDataType;
 
 
-public abstract class Do_Button_MAbstract extends DoUIModule{
+public abstract class do_Button_MAbstract extends DoUIModule{
 
-	protected Do_Button_MAbstract() throws Exception {
+	protected do_Button_MAbstract() throws Exception {
 		super();
 	}
 	

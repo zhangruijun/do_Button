@@ -15,8 +15,8 @@ import core.interfaces.DoIScriptEngine;
 import core.interfaces.DoIUIModuleView;
 import core.object.DoInvokeResult;
 import core.object.DoUIModule;
-import extdefine.Do_Button_IMethod;
-import extdefine.Do_Button_MAbstract;
+import extdefine.do_Button_IMethod;
+import extdefine.do_Button_MAbstract;
 
 /**
  * 自定义扩展UIView组件实现类，此类必须继承相应VIEW类，并实现DoIUIModuleView,Do_Button_IMethod接口；
@@ -25,14 +25,14 @@ import extdefine.Do_Button_MAbstract;
  * 参数解释：@_messageName字符串事件名称，@jsonResult传递事件参数对象； 获取DoInvokeResult对象方式new
  * DoInvokeResult();
  */
-public class Do_Button_View extends Button implements DoIUIModuleView, Do_Button_IMethod, OnTouchListener, OnClickListener {
+public class do_Button_View extends Button implements DoIUIModuleView, do_Button_IMethod, OnTouchListener, OnClickListener {
 
 	/**
 	 * 每个UIview都会引用一个具体的model实例；
 	 */
-	private Do_Button_MAbstract model;
+	private do_Button_MAbstract model;
 
-	public Do_Button_View(Context context) {
+	public do_Button_View(Context context) {
 		super(context);
 	}
 
@@ -41,7 +41,7 @@ public class Do_Button_View extends Button implements DoIUIModuleView, Do_Button
 	 */
 	@Override
 	public void loadView(DoUIModule _doUIModule) throws Exception {
-		this.model = (Do_Button_MAbstract) _doUIModule;
+		this.model = (do_Button_MAbstract) _doUIModule;
 		this.setOnTouchListener(this);
 		this.setOnClickListener(this);
 	}
