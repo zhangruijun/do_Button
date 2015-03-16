@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 DoExt. All rights reserved.
 //
 
-#import "DoExt_Camera_SM.h"
+#import "do_Camera_SM.h"
 
 #import "doJsonNode.h"
 #import "doServiceContainer.h"
@@ -18,7 +18,7 @@
 #import "doIPage.h"
 #import "doUIModuleHelper.h"
 
-@interface DoExt_Camera_SM ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>{
+@interface do_Camera_SM ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>{
     int imageWidth;
     int imageHeight;
     int imageQuality;
@@ -30,7 +30,7 @@
 
 @end
 
-@implementation DoExt_Camera_SM
+@implementation do_Camera_SM
 #pragma mark -
 #pragma mark - 同步异步方法的实现
 /*
