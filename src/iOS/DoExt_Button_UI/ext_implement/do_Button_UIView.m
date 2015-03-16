@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 DoExt. All rights reserved.
 //
 
-#import "DoExt_Button_UIView.h"
+#import "do_Button_UIView.h"
 
 #import "doInvokeResult.h"
 #import "doIPage.h"
@@ -20,7 +20,7 @@
 #import "doDefines.h"
 #import "doIOHelper.h"
 
-@implementation DoExt_Button_UIView
+@implementation do_Button_UIView
 #pragma mark - doIUIModuleView协议方法（必须）
 //引用Model对象
 - (void) LoadView: (doUIModule *) _doUIModule
@@ -112,18 +112,18 @@
 }
 
 #pragma mark - event
--(void)fingerTouch:(DoExt_Button_UIView *) _doButtonView
+-(void)fingerTouch:(do_Button_UIView *) _doButtonView
 {
     doInvokeResult* _invokeResult = [[doInvokeResult alloc]init:model.UniqueKey];
     [model.EventCenter FireEvent:@"touch":_invokeResult];
 }
--(void)fingerDown:(DoExt_Button_UIView *) _doButtonView
+-(void)fingerDown:(do_Button_UIView *) _doButtonView
 {
     doInvokeResult* _invokeResult = [[doInvokeResult alloc]init:model.UniqueKey];
     [model.EventCenter FireEvent:@"touchdown":_invokeResult];
 }
 
--(void)fingerUp:(DoExt_Button_UIView *) _doButtonView
+-(void)fingerUp:(do_Button_UIView *) _doButtonView
 {
     doInvokeResult* _invokeResult = [[doInvokeResult alloc]init:model.UniqueKey];
     [model.EventCenter FireEvent:@"touchup":_invokeResult];

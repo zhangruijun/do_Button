@@ -7,15 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DoExt_Button_IView.h"
-#import "DoExt_Button_UIModel.h"
+#import "do_Button_IView.h"
+#import "do_Button_UIModel.h"
 #import "doIUIModuleView.h"
 
-@interface DoExt_Button_UIView : UIButton<DoExt_Button_IView,doIUIModuleView>
+@interface do_Button_UIView : UIButton<do_Button_IView,doIUIModuleView>
 //可根据具体实现替换UIView
 {
     @private
-    __weak DoExt_Button_UIModel *model;
+    __weak do_Button_UIModel *model;
 }
 
 @end
