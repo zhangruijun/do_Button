@@ -27,14 +27,14 @@ namespace do_Button.extimplement
     /// 参数解释：@_messageName字符串事件名称，@jsonResult传递事件参数对象；
     /// 获取doInvokeResult对象方式new doInvokeResult(model.UniqueKey);
     /// </summary>
-    public class button_View : UserControl, doIUIModuleView, button_IMethod
+    public class do_Button_View : UserControl, doIUIModuleView, do_Button_IMethod
     {
         /// <summary>
         /// 每个UIview都会引用一个具体的model实例；
         /// </summary>
-        private button_MAbstract model;
+        private do_Button_MAbstract model;
         Button btn = new Button();
-        public  button_View()
+        public do_Button_View()
         {
             
         }
@@ -44,7 +44,7 @@ namespace do_Button.extimplement
         /// <param name="_doComponentUI"></param>
         public async void LoadView(doUIModule _doUIModule)
         {
-            this.model = (button_MAbstract)_doUIModule;
+            this.model = (do_Button_MAbstract)_doUIModule;
             btn.Click += btn_Click;
             btn.Tapped += btn_Tapped;
             this.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Left;
@@ -59,14 +59,14 @@ namespace do_Button.extimplement
 
         void btn_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            doInvokeResult _invokeResult = this.model.CurrentPage.ScriptEngine.CreateInvokeResult(this.model.UniqueKey);
+            doInvokeResult _invokeResult = new doInvokeResult(this.model.UniqueKey);
             this.model.EventCenter.FireEvent("touchup", _invokeResult);
             this.model.EventCenter.FireEvent("touch", _invokeResult);
         }
 
         void btn_Click(object sender, RoutedEventArgs e)
         {
-            doInvokeResult _invokeResult = this.model.CurrentPage.ScriptEngine.CreateInvokeResult(this.model.UniqueKey);
+            doInvokeResult _invokeResult =  new doInvokeResult(this.model.UniqueKey);
             this.model.EventCenter.FireEvent("touchdown", _invokeResult);
         }
         public doUIModule GetModel()

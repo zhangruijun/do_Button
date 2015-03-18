@@ -11,9 +11,9 @@ namespace do_Button.extimplement
     /// <summary>
     /// 自定义扩展组件Model实现，继承@TYPEID_MAbstract抽象类；
     /// </summary>
-    public class button_Model : button_MAbstract
+    public class do_Button_Model : do_Button_MAbstract
     {
-        public button_Model()
+        public do_Button_Model()
             : base()
         {
         }

@@ -9,7 +9,7 @@ namespace do_Button.extdefine
     /// <summary>
     /// 声明自定义扩展组件方法
     /// </summary>
-    public interface button_IMethod
+    public interface do_Button_IMethod
     {
     }
 }
