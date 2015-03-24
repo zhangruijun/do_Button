@@ -161,11 +161,12 @@ public class do_Camera_Model extends DoSingletonModule implements do_Camera_IMet
 						ByteArrayOutputStream photo_data = new ByteArrayOutputStream();
 						try {
 							Bitmap bitmap = DoImageLoadHelper.getInstance().loadLocal(imageUri.getPath());
-							bitmap.compress(Bitmap.CompressFormat.PNG, quality, photo_data);
+							if(bitmap != null){
+								bitmap.compress(Bitmap.CompressFormat.PNG, quality, photo_data);
+							}
 						} catch (Exception _err) {
 							this.invokeResult.setException(_err);
 						}
-
 						String _fileName = DoTextHelper.getTimestampStr() + ".png";
 						String _fileFullName = scriptEngine.getCurrentApp().getDataFS().getPathPublic() + "/" + _fileName;
 						DoIOHelper.writeAllBytes(_fileFullName, photo_data.toByteArray());
