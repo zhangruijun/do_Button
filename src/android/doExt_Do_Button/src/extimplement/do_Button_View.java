@@ -5,7 +5,10 @@ import java.util.Map;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +16,7 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import core.DoServiceContainer;
 import core.helper.DoImageHandleHelper;
+import core.helper.DoResourcesHelper;
 import core.helper.DoTextHelper;
 import core.helper.DoUIModuleHelper;
 import core.helper.jsonparse.DoJsonNode;
@@ -36,6 +40,7 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 	 * 每个UIview都会引用一个具体的model实例；
 	 */
 	private do_Button_MAbstract model;
+	private ColorDrawable bgColorDrawable = new ColorDrawable(Color.TRANSPARENT);
 	private float radius;
 	
 	public float getRadius() {
@@ -48,15 +53,17 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 
 	public do_Button_View(Context context) {
 		super(context);
+		this.setBackgroundDrawable(bgColorDrawable);
 	}
 	
-	@Override
-	protected void onDraw(Canvas canvas) {
-		Bitmap bgBitmap = DoImageHandleHelper.drawableToBitmap(getBackground(), getWidth(), getHeight());
+	private void onDrawBackgroundDrawable() {
+		Bitmap bgBitmap = DoImageHandleHelper.drawableToBitmap(getBackground(), 
+				(int)this.model.getRealWidth(), (int)this.model.getRealHeight());
 		Bitmap newBitmap = Bitmap.createBitmap(bgBitmap.getWidth(), bgBitmap.getHeight(), Bitmap.Config.RGB_565);
 		Canvas newCanvas = new Canvas(newBitmap);
 		newCanvas.drawBitmap(bgBitmap, 0, 0, new Paint());
-		canvas.drawBitmap(createRadiusBitmap(newBitmap), 0, 0, new Paint());
+		BitmapDrawable bd = new BitmapDrawable(DoResourcesHelper.getResources(), createRadiusBitmap(newBitmap));
+		setBackgroundDrawable(bd);
 	}
 
 	private Bitmap createRadiusBitmap(Bitmap bitmap) {
@@ -105,6 +112,7 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 		if (_changedValues.containsKey("radius")) {
 			setRadius(DoTextHelper.strToFloat(_changedValues.get("radius"), 0f));
 		}
+		onDrawBackgroundDrawable();
 	}
 
 	/**
