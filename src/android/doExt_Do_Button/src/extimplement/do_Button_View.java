@@ -3,12 +3,21 @@ package extimplement;
 import java.util.Map;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import core.DoServiceContainer;
+import core.helper.DoImageHandleHelper;
+import core.helper.DoResourcesHelper;
+import core.helper.DoTextHelper;
 import core.helper.DoUIModuleHelper;
 import core.helper.jsonparse.DoJsonNode;
 import core.interfaces.DoIScriptEngine;
@@ -23,7 +32,7 @@ import extdefine.do_Button_MAbstract;
  * #如何调用组件自定义事件？可以通过如下方法触发事件：
  * this.model.getEventCenter().fireEvent(_messageName, jsonResult);
  * 参数解释：@_messageName字符串事件名称，@jsonResult传递事件参数对象； 获取DoInvokeResult对象方式new
- * DoInvokeResult();
+ * DoInvokeResult(this.model.getUniqueKey());
  */
 public class do_Button_View extends Button implements DoIUIModuleView, do_Button_IMethod, OnTouchListener, OnClickListener {
 
@@ -31,11 +40,39 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 	 * 每个UIview都会引用一个具体的model实例；
 	 */
 	private do_Button_MAbstract model;
+	private ColorDrawable bgColorDrawable = new ColorDrawable(Color.TRANSPARENT);
+	private float radius;
+	
+	public float getRadius() {
+		return radius;
+	}
+
+	public void setRadius(float radius) {
+		this.radius = radius;
+	}
 
 	public do_Button_View(Context context) {
 		super(context);
+		this.setBackgroundDrawable(bgColorDrawable);
+	}
+	
+	private void onDrawBackgroundDrawable() {
+		Bitmap bgBitmap = DoImageHandleHelper.drawableToBitmap(getBackground(), 
+				(int)this.model.getRealWidth(), (int)this.model.getRealHeight());
+		Bitmap newBitmap = Bitmap.createBitmap(bgBitmap.getWidth(), bgBitmap.getHeight(), Bitmap.Config.RGB_565);
+		Canvas newCanvas = new Canvas(newBitmap);
+		newCanvas.drawBitmap(bgBitmap, 0, 0, new Paint());
+		BitmapDrawable bd = new BitmapDrawable(DoResourcesHelper.getResources(), createRadiusBitmap(newBitmap));
+		setBackgroundDrawable(bd);
 	}
 
+	private Bitmap createRadiusBitmap(Bitmap bitmap) {
+		if (this.radius > 0f) {
+			return DoImageHandleHelper.createRoundBitmap(bitmap, getRadius());
+		}
+		return bitmap;
+	}
+	
 	/**
 	 * 初始化加载view准备,_doUIModule是对应当前UIView的model实例
 	 */
@@ -65,13 +102,17 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 	public void onPropertiesChanged(Map<String, String> _changedValues) {
 		DoUIModuleHelper.handleBasicViewProperChanged(this.model, _changedValues);
 		DoUIModuleHelper.setFontProperty(this.model, _changedValues);
-		if (_changedValues.containsKey("bgImage") || _changedValues.containsKey("radius") || _changedValues.containsKey("bgImageFillType")) {
+		if (_changedValues.containsKey("bgImage")) {
 			try {
 				DoUIModuleHelper.setBgImage(this.model, _changedValues);
 			} catch (Exception _err) {
 				DoServiceContainer.getLogEngine().writeError("DoButton setBgImage \n", _err);
 			}
 		}
+		if (_changedValues.containsKey("radius")) {
+			setRadius(DoTextHelper.strToFloat(_changedValues.get("radius"), 0f));
+		}
+		onDrawBackgroundDrawable();
 	}
 
 	/**
@@ -95,10 +136,9 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 	 * @_dictParas 参数（K,V）
 	 * @_scriptEngine 当前page JS上下文环境
 	 * @_callbackFuncName 回调函数名 #如何执行异步方法回调？可以通过如下方法：
-	 *                    _scriptEngine.callback(_callbackFuncName,
-	 *                    _invokeResult);
-	 *                    参数解释：@_callbackFuncName回调函数名，@_invokeResult传递回调函数参数对象；
-	 *                    获取DoInvokeResult对象方式new DoInvokeResult();
+	 * _scriptEngine.callback(_callbackFuncName,_invokeResult);
+	 * 参数解释：@_callbackFuncName回调函数名，@_invokeResult传递回调函数参数对象；
+	 * 获取DoInvokeResult对象方式new DoInvokeResult(this.model.getUniqueKey());
 	 */
 	@Override
 	public boolean invokeAsyncMethod(String _methodName, DoJsonNode _dictParas, DoIScriptEngine _scriptEngine, String _callbackFuncName) {
@@ -132,7 +172,6 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 		doButtonView_Touch();
 	}
 
-	// =========================================================================
 	private void doButtonView_Touch() {
 		DoInvokeResult _invokeResult = new DoInvokeResult(this.model.getUniqueKey());
 		this.model.getEventCenter().fireEvent("touch", _invokeResult);
