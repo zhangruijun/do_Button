@@ -21,6 +21,9 @@
 #import "doIOHelper.h"
 
 @implementation do_Button_UIView
+{
+    NSString *_myFontStyle;
+}
 #pragma mark - doIUIModuleView协议方法（必须）
 //引用Model对象
 - (void) LoadView: (doUIModule *) _doUIModule
@@ -38,6 +41,7 @@
 - (void) OnDispose
 {
     model = nil;
+    _myFontStyle = nil;
     //自定义的全局属性
 }
 //实现布局
@@ -60,6 +64,8 @@
  */
 - (void)change_text:(NSString *)newValue{
     [self setTitle:newValue forState:UIControlStateNormal];
+    if(_myFontStyle)
+        [self change_fontStyle:_myFontStyle];
 }
 - (void)change_fontColor:(NSString *)newValue{
     [self setTitleColor:[doUIModuleHelper GetColorFromString:newValue :[UIColor blackColor]] forState:UIControlStateNormal];
@@ -73,7 +79,8 @@
     self.titleLabel.font = [font fontWithSize:_intFontSize];//z012
 }
 - (void)change_fontStyle:(NSString *)newValue{
-    
+    _myFontStyle = [NSString stringWithFormat:@"%@",newValue];
+    if (self.titleLabel.text==nil || [self.titleLabel.text isEqualToString:@""]) return;
     NSRange range = {0,[self.titleLabel.text length]};
     NSMutableAttributedString *str = [self.titleLabel.attributedText mutableCopy];
     [str removeAttribute:NSUnderlineStyleAttributeName range:range];
@@ -88,14 +95,11 @@
     }else if([newValue isEqualToString:@"italic"]){
         self.titleLabel.font = [UIFont italicSystemFontOfSize:fontSize];
     }else if([newValue isEqualToString:@"underline"]){
-        if (self.titleLabel.text == nil) {
-            return;
-        }
-        
-        NSMutableAttributedString * content = [[NSMutableAttributedString alloc]initWithString:self.titleLabel.text];
+        NSMutableAttributedString * content = [self.titleLabel.attributedText mutableCopy];
         NSRange contentRange = {0,[content length]};
         [content addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];
         self.titleLabel.attributedText = content;
+        [content endEditing];
     }
 }
 - (void)change_radius:(NSString *)newValue{
