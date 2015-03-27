@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -83,6 +84,7 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 		 * ::setFocusable(false)不获取焦点，否则listview无法响应itemclick事件；
 		 * 不影响自身点击，只是不能通过键盘获取焦点；或者由前端JS控制；
 		 */
+		this.setTextSize(TypedValue.COMPLEX_UNIT_PX, DoUIModuleHelper.getDeviceFontSize(_doUIModule, "9"));
 		this.setFocusable(false);
 		this.setOnTouchListener(this);
 		this.setOnClickListener(this);
