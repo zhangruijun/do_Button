@@ -79,6 +79,11 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 	@Override
 	public void loadView(DoUIModule _doUIModule) throws Exception {
 		this.model = (do_Button_MAbstract) _doUIModule;
+		/*
+		 * ::setFocusable(false)不获取焦点，否则listview无法响应itemclick事件；
+		 * 不影响自身点击，只是不能通过键盘获取焦点；或者由前端JS控制；
+		 */
+		this.setFocusable(false);
 		this.setOnTouchListener(this);
 		this.setOnClickListener(this);
 	}
@@ -112,7 +117,6 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 		if (_changedValues.containsKey("radius")) {
 			setRadius(DoTextHelper.strToFloat(_changedValues.get("radius"), 0f));
 		}
-		onDrawBackgroundDrawable();
 	}
 
 	/**
@@ -194,6 +198,7 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 	@Override
 	public void onRedraw() {
 		this.setLayoutParams(DoUIModuleHelper.getLayoutParams(this.model));
+		onDrawBackgroundDrawable();
 	}
 
 	/**
