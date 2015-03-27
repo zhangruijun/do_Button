@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,7 +39,6 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 	 * 每个UIview都会引用一个具体的model实例；
 	 */
 	private do_Button_MAbstract model;
-	private ColorDrawable bgColorDrawable = new ColorDrawable(Color.TRANSPARENT);
 	private float radius;
 	
 	public float getRadius() {
@@ -53,14 +51,16 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 
 	public do_Button_View(Context context) {
 		super(context);
-		this.setBackgroundDrawable(bgColorDrawable);
+		this.setBackgroundColor(Color.TRANSPARENT);
 	}
 	
 	private void onDrawBackgroundDrawable() {
 		Bitmap bgBitmap = DoImageHandleHelper.drawableToBitmap(getBackground(), 
 				(int)this.model.getRealWidth(), (int)this.model.getRealHeight());
-		Bitmap newBitmap = Bitmap.createBitmap(bgBitmap.getWidth(), bgBitmap.getHeight(), Bitmap.Config.RGB_565);
+		Bitmap newBitmap = Bitmap.createBitmap(bgBitmap.getWidth(), bgBitmap.getHeight(), Bitmap.Config.ARGB_8888);
 		Canvas newCanvas = new Canvas(newBitmap);
+		Paint paint = new Paint();
+		paint.setAlpha(Color.TRANSPARENT);
 		newCanvas.drawBitmap(bgBitmap, 0, 0, new Paint());
 		BitmapDrawable bd = new BitmapDrawable(DoResourcesHelper.getResources(), createRadiusBitmap(newBitmap));
 		setBackgroundDrawable(bd);
