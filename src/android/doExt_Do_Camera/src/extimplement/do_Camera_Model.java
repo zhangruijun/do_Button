@@ -7,10 +7,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import core.DoServiceContainer;
 import core.helper.DoIOHelper;
-import core.helper.DoImageLoadHelper;
+import core.helper.DoImageHandleHelper;
 import core.helper.DoTextHelper;
 import core.helper.jsonparse.DoJsonNode;
 import core.interfaces.DoActivityResultListener;
@@ -92,17 +93,17 @@ public class do_Camera_Model extends DoSingletonModule implements do_Camera_IMet
 		private int quality;
 		private boolean iscut;
 		private String callbackFuncName;
-		private DoInvokeResult invokeResult;
 		private DoIScriptEngine scriptEngine;
 		private String picTempPath;
 		private DoIPageView activity;
 
-		public void init(DoJsonNode _dictParas, DoIScriptEngine _scriptEngine, DoInvokeResult _invokeResult, String _callbackFuncName) throws Exception {
+		public void init(DoJsonNode _dictParas, DoIScriptEngine _scriptEngine, 
+				DoInvokeResult _invokeResult, String _callbackFuncName) throws Exception {
 			this.scriptEngine = _scriptEngine;
 			// 图片宽度
-			this.width = _dictParas.getOneInteger("width", 100);
+			this.width = _dictParas.getOneInteger("width", -1);
 			// 图片高度
-			this.height = _dictParas.getOneInteger("height", 100);
+			this.height = _dictParas.getOneInteger("height", -1);
 			// 清晰度1-100
 			this.quality = _dictParas.getOneInteger("quality", 100);
 			quality = quality > 100 ? 100 : quality;
@@ -111,7 +112,6 @@ public class do_Camera_Model extends DoSingletonModule implements do_Camera_IMet
 			this.iscut = _dictParas.getOneBoolean("iscut", false);
 			// 回调函数
 			this.callbackFuncName = _callbackFuncName;
-			this.invokeResult = _invokeResult;
 
 			activity = _scriptEngine.getCurrentPage().getPageView();
 			activity.registActivityResultListener(this);
@@ -122,24 +122,17 @@ public class do_Camera_Model extends DoSingletonModule implements do_Camera_IMet
 			imageUri = Uri.fromFile(photo);
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 			((Activity) activity).startActivityForResult(intent, CameraCode);
-
 		}
 
 		@Override
 		public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-			String _url = "";
-			boolean isCallBack = false;
-
 			try {
 				// 回调
 				if (requestCode == CameraCode && resultCode == Activity.RESULT_CANCELED) { // 取消
-					isCallBack = true;
-					invokeResult.setError("拍照取消");
+					DoServiceContainer.getLogEngine().writeInfo("取消拍照", "info");
 				} else if ((requestCode == CameraCode && resultCode == Activity.RESULT_OK) || (requestCode == CutCode)) {
 					if (this.iscut && requestCode == CameraCode) {
-						isCallBack = false;
 						this.iscut = false;
-
 						Intent intentCrop = new Intent("com.android.camera.action.CROP");
 						intentCrop.setDataAndType(imageUri, "image/*");
 						intentCrop.putExtra("crop", "true");
@@ -156,42 +149,57 @@ public class do_Camera_Model extends DoSingletonModule implements do_Camera_IMet
 						intentCrop.putExtra("noFaceDetection", true);
 						((Activity) activity).startActivityForResult(intentCrop, CameraCode);
 					} else {
-						isCallBack = true;
-
-						ByteArrayOutputStream photo_data = new ByteArrayOutputStream();
-						try {
-							Bitmap bitmap = DoImageLoadHelper.getInstance().loadLocal(imageUri.getPath());
-							if(bitmap != null){
-								bitmap.compress(Bitmap.CompressFormat.PNG, quality, photo_data);
-							}
-						} catch (Exception _err) {
-							this.invokeResult.setException(_err);
-						}
-						String _fileName = DoTextHelper.getTimestampStr() + ".png";
-						String _fileFullName = scriptEngine.getCurrentApp().getDataFS().getPathPublic() + "/" + _fileName;
-						DoIOHelper.writeAllBytes(_fileFullName, photo_data.toByteArray());
-						_url = "data://temp/" + _fileName;
-						File photo = new File(picTempPath);
-						photo.delete();
+						new CameraSaveTask(activity,this,callbackFuncName).execute(new String[]{});
 					}
 				}
 			} catch (Exception _err) {
-				this.invokeResult.setException(_err);
-			} finally {
-				if (isCallBack) {
-					try {
-						this.invokeResult.setResultText(_url);
-						this.scriptEngine.callback(this.callbackFuncName, this.invokeResult);
-					} catch (Exception _err) {
-						_err.printStackTrace();
-					}
-					activity.unregistActivityResultListener(this);
-				}
-
+				DoServiceContainer.getLogEngine().writeError("do_Camera_Model", _err);
 			}
-
+		}
+		
+		
+		class CameraSaveTask extends AsyncTask<String, Void, String>{
+			
+			private String callbackFuncName;
+			private DoIPageView activity;
+			private DoActivityResultListener doActivityResultListener;
+			
+			public CameraSaveTask(DoIPageView activity,DoActivityResultListener resultListener, String callbackFuncName) {
+				this.callbackFuncName = callbackFuncName;
+				this.activity = activity;
+				this.doActivityResultListener = resultListener;
+			}
+			
+			@Override
+			protected String doInBackground(String... params) {
+				DoInvokeResult invokeResult = new DoInvokeResult(getUniqueKey());
+				ByteArrayOutputStream photo_data = new ByteArrayOutputStream();
+				String _fileName = DoTextHelper.getTimestampStr() + ".png";
+				String _fileFullName = scriptEngine.getCurrentApp().getDataFS().getRootPath() + "/temp/" + _fileName;
+				Bitmap bitmap = null;
+				try {
+					bitmap = DoImageHandleHelper.resizeScaleImage(imageUri.getPath(), width, height);
+					if(bitmap != null){
+						bitmap.compress(Bitmap.CompressFormat.PNG, quality, photo_data);
+					}
+					DoIOHelper.writeAllBytes(_fileFullName, photo_data.toByteArray());
+					String _url = "data://temp/" + _fileName;
+					File photo = new File(picTempPath);
+					photo.delete();
+					invokeResult.setResultText(_url);
+					scriptEngine.callback(this.callbackFuncName, invokeResult);
+				} catch (Exception _err) {
+					DoServiceContainer.getLogEngine().writeError("do_Camera_Model", _err);
+				} finally {
+					if(bitmap != null){
+						bitmap.recycle();
+						bitmap = null;
+					}
+					System.gc();
+					activity.unregistActivityResultListener(doActivityResultListener);
+				}
+				return null;
+			}
 		}
 	}
-
-	
 }
