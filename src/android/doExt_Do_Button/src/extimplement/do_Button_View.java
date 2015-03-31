@@ -14,7 +14,9 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import core.DoServiceContainer;
+import core.helper.DoIOHelper;
 import core.helper.DoImageHandleHelper;
+import core.helper.DoImageLoadHelper;
 import core.helper.DoResourcesHelper;
 import core.helper.DoTextHelper;
 import core.helper.DoUIModuleHelper;
@@ -109,13 +111,28 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 		DoUIModuleHelper.setFontProperty(this.model, _changedValues);
 		if (_changedValues.containsKey("bgImage")) {
 			try {
-				DoUIModuleHelper.setBgImage(this.model, _changedValues);
+				setBackgroundDrawable(_changedValues);
 			} catch (Exception _err) {
 				DoServiceContainer.getLogEngine().writeError("DoButton setBgImage \n", _err);
 			}
 		}
 		if (_changedValues.containsKey("radius")) {
 			setRadius(DoTextHelper.strToFloat(_changedValues.get("radius"), 0f));
+		}
+	}
+	
+	private void setBackgroundDrawable(Map<String, String> _changedValues) throws Exception {
+		String _bgImage = _changedValues.get("bgImage");
+		if(_bgImage != null) {
+			String _bgImageFillPath = DoIOHelper.getLocalFileFullPath(this.model.getCurrentPage().getCurrentApp(), _bgImage);
+			Bitmap _bitmap = DoImageLoadHelper.getInstance().loadLocal(_bgImageFillPath);
+			BitmapDrawable _bitmapDrawable = null;
+			if( _bitmap != null) {
+				_bitmapDrawable = new BitmapDrawable(DoResourcesHelper.getResources(), _bitmap);
+			}
+			if (_bitmapDrawable != null) {
+				setBackgroundDrawable(_bitmapDrawable);
+			}
 		}
 	}
 
