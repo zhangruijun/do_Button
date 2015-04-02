@@ -23,6 +23,7 @@
 @implementation do_Button_UIView
 {
     NSString *_myFontStyle;
+    NSString *_oldFontStyle;
 }
 #pragma mark - doIUIModuleView协议方法（必须）
 //引用Model对象
@@ -36,11 +37,11 @@
     [self addTarget:self action:@selector(fingerUp:) forControlEvents:UIControlEventTouchUpOutside];
     
     [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self change_fontSize:[model GetProperty:@"fontSize"].DefaultValue];
 }
 //销毁所有的全局对象
 - (void) OnDispose
 {
-    model = nil;
     _myFontStyle = nil;
     //自定义的全局属性
 }
@@ -91,9 +92,15 @@
     if([newValue isEqualToString:@"normal"]){
         self.titleLabel.font = [UIFont systemFontOfSize:fontSize];
     }else if([newValue isEqualToString:@"bold"]){
-        self.titleLabel.font = [UIFont boldSystemFontOfSize:fontSize];
+        if([_oldFontStyle isEqualToString:@"italic"])
+            [self.titleLabel setFont:[UIFont fontWithName:@"Helvetica-BoldOblique" size:fontSize]];
+        else
+            self.titleLabel.font = [UIFont boldSystemFontOfSize:fontSize];
     }else if([newValue isEqualToString:@"italic"]){
-        self.titleLabel.font = [UIFont italicSystemFontOfSize:fontSize];
+        if([_oldFontStyle isEqualToString:@"bold"])
+            [self.titleLabel setFont:[UIFont fontWithName:@"Helvetica-BoldOblique" size:fontSize]];
+        else
+            self.titleLabel.font = [UIFont italicSystemFontOfSize:fontSize];
     }else if([newValue isEqualToString:@"underline"]){
         NSMutableAttributedString * content = [self.titleLabel.attributedText mutableCopy];
         NSRange contentRange = {0,[content length]};
@@ -101,6 +108,12 @@
         self.titleLabel.attributedText = content;
         [content endEditing];
     }
+    else
+    {
+        NSString *mesg = [NSString stringWithFormat:@"不支持字体:%@",newValue];
+        [NSException raise:@"do_Button" format:mesg,@""];
+    }
+    _oldFontStyle = newValue;
 }
 - (void)change_radius:(NSString *)newValue{
     
@@ -158,5 +171,14 @@
     //获取model对象
     return model;
 }
-
+#pragma mark - 重写该方法，动态选择事件的施行或无效
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    UIView *view = [super hitTest:point withEvent:event];
+    //这里的BOOL值，可以设置为int的标记。从model里获取。
+    if(model.EventCenter.dictEventCollection.count <= 0)
+        if(view == self)
+            view = nil;
+    return view;
+}
 @end
