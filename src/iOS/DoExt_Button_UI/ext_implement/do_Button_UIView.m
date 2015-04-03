@@ -176,7 +176,7 @@
 {
     UIView *view = [super hitTest:point withEvent:event];
     //这里的BOOL值，可以设置为int的标记。从model里获取。
-    if(model.EventCenter.dictEventCollection.count <= 0)
+    if([model.EventCenter getEventCount:@"touch"]+[model.EventCenter getEventCount:@"touchdown"]+[model.EventCenter getEventCount:@"touchup"] <= 0)
         if(view == self)
             view = nil;
     return view;
