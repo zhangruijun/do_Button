@@ -12,7 +12,7 @@
 #import "doIScriptEngine.h"
 #import "doInvokeResult.h"
 
-@protocol DoExt_Button_IView <NSObject>
+@protocol do_Button_IView <NSObject>
 
 @required
 - (void)change_text:(NSString *)newValue;
@@ -21,9 +21,5 @@
 - (void)change_fontStyle:(NSString *)newValue;
 - (void)change_radius:(NSString *)newValue;
 - (void)change_bgImage:(NSString *)newValue;
-
-- (BOOL)InvokeSyncMethod:(NSString *)_methodName :(doJsonNode *)_dictParas :(id<doIScriptEngine>) _scriptEngine :(doInvokeResult *)_invokeResult;
-
-- (BOOL) InvokeAsyncMethod: (NSString *) _methodName : (doJsonNode *) _dicParas :(id<doIScriptEngine>) _scriptEngine : (NSString *) _callbackFuncName;
 
 @end

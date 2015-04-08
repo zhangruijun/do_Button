@@ -7,6 +7,6 @@
 //
 #import "doUIModule.h"
 
-@interface DoExt_Button_UIModel : doUIModule
+@interface do_Button_UIModel : doUIModule
 
 @end
