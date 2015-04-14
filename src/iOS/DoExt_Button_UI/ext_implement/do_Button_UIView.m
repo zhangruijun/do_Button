@@ -137,13 +137,13 @@
 -(void)fingerDown:(do_Button_UIView *) _doButtonView
 {
     doInvokeResult* _invokeResult = [[doInvokeResult alloc]init:model.UniqueKey];
-    [model.EventCenter FireEvent:@"touchdown":_invokeResult];
+    [model.EventCenter FireEvent:@"touchDown":_invokeResult];
 }
 
 -(void)fingerUp:(do_Button_UIView *) _doButtonView
 {
     doInvokeResult* _invokeResult = [[doInvokeResult alloc]init:model.UniqueKey];
-    [model.EventCenter FireEvent:@"touchup":_invokeResult];
+    [model.EventCenter FireEvent:@"touchUp":_invokeResult];
 }
 
 #pragma mark - doIUIModuleView协议方法（必须）<大部分情况不需修改>

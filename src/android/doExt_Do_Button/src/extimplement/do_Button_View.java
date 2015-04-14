@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,7 +44,7 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 	 */
 	private do_Button_MAbstract model;
 	private float radius;
-	
+
 	public float getRadius() {
 		return radius;
 	}
@@ -55,11 +56,12 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 	public do_Button_View(Context context) {
 		super(context);
 		this.setBackgroundColor(Color.TRANSPARENT);
+		this.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
+		this.setPadding(1, 0, 1, 0);
 	}
-	
+
 	private void onDrawBackgroundDrawable() {
-		Bitmap bgBitmap = DoImageHandleHelper.drawableToBitmap(getBackground(), 
-				(int)this.model.getRealWidth(), (int)this.model.getRealHeight());
+		Bitmap bgBitmap = DoImageHandleHelper.drawableToBitmap(getBackground(), (int) this.model.getRealWidth(), (int) this.model.getRealHeight());
 		Bitmap newBitmap = Bitmap.createBitmap(bgBitmap.getWidth(), bgBitmap.getHeight(), Bitmap.Config.ARGB_8888);
 		Canvas newCanvas = new Canvas(newBitmap);
 		Paint paint = new Paint();
@@ -75,7 +77,7 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 		}
 		return bitmap;
 	}
-	
+
 	/**
 	 * 初始化加载view准备,_doUIModule是对应当前UIView的model实例
 	 */
@@ -122,14 +124,14 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 			setRadius(DoTextHelper.strToFloat(_changedValues.get("radius"), 0f));
 		}
 	}
-	
+
 	private void setBackgroundDrawable(Map<String, String> _changedValues) throws Exception {
 		String _bgImage = _changedValues.get("bgImage");
-		if(_bgImage != null) {
+		if (_bgImage != null) {
 			String _bgImageFillPath = DoIOHelper.getLocalFileFullPath(this.model.getCurrentPage().getCurrentApp(), _bgImage);
 			Bitmap _bitmap = DoImageLoadHelper.getInstance().loadLocal(_bgImageFillPath);
 			BitmapDrawable _bitmapDrawable = null;
-			if( _bitmap != null) {
+			if (_bitmap != null) {
 				_bitmapDrawable = new BitmapDrawable(DoResourcesHelper.getResources(), _bitmap);
 			}
 			if (_bitmapDrawable != null) {
@@ -159,9 +161,11 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 	 * @_dictParas 参数（K,V）
 	 * @_scriptEngine 当前page JS上下文环境
 	 * @_callbackFuncName 回调函数名 #如何执行异步方法回调？可以通过如下方法：
-	 * _scriptEngine.callback(_callbackFuncName,_invokeResult);
-	 * 参数解释：@_callbackFuncName回调函数名，@_invokeResult传递回调函数参数对象；
-	 * 获取DoInvokeResult对象方式new DoInvokeResult(this.model.getUniqueKey());
+	 *                    _scriptEngine.callback(_callbackFuncName
+	 *                    ,_invokeResult);
+	 *                    参数解释：@_callbackFuncName回调函数名，@_invokeResult传递回调函数参数对象；
+	 *                    获取DoInvokeResult对象方式new
+	 *                    DoInvokeResult(this.model.getUniqueKey());
 	 */
 	@Override
 	public boolean invokeAsyncMethod(String _methodName, DoJsonNode _dictParas, DoIScriptEngine _scriptEngine, String _callbackFuncName) {
