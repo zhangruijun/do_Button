@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5B8D0612-A141-4584-92F8-F06936DA7597</string>
+	<key>IDESourceControlProjectName</key>
+	<string>DoExt_Camera_SM</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>029977344A296EC7C748D095EE24426508D413E4</key>
+		<string>https://github.com/deviceone/do_Camera.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>src/iOS/DoExt_Camera_SM/DoExt_Camera_SM.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>029977344A296EC7C748D095EE24426508D413E4</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/deviceone/do_Camera.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>029977344A296EC7C748D095EE24426508D413E4</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>029977344A296EC7C748D095EE24426508D413E4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>do_Camera</string>
+		</dict>
+	</array>
+</dict>
+</plist>
