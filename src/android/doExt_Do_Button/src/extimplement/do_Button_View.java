@@ -64,8 +64,6 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 		Bitmap bgBitmap = DoImageHandleHelper.drawableToBitmap(getBackground(), (int) this.model.getRealWidth(), (int) this.model.getRealHeight());
 		Bitmap newBitmap = Bitmap.createBitmap(bgBitmap.getWidth(), bgBitmap.getHeight(), Bitmap.Config.ARGB_8888);
 		Canvas newCanvas = new Canvas(newBitmap);
-		Paint paint = new Paint();
-		paint.setAlpha(Color.TRANSPARENT);
 		newCanvas.drawBitmap(bgBitmap, 0, 0, new Paint());
 		BitmapDrawable bd = new BitmapDrawable(DoResourcesHelper.getResources(), createRadiusBitmap(newBitmap));
 		setBackgroundDrawable(bd);
