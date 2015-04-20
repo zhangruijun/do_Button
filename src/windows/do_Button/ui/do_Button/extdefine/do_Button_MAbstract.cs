@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace do_Button.extdefine
 {
-    public abstract class button_MAbstract : doUIModule
+    public abstract class do_Button_MAbstract : doUIModule
     {
-        protected button_MAbstract():base()
+        protected do_Button_MAbstract()
+            : base()
         {
             
         }

@@ -27,47 +27,45 @@ namespace do_Button.extimplement
     /// 参数解释：@_messageName字符串事件名称，@jsonResult传递事件参数对象；
     /// 获取doInvokeResult对象方式new doInvokeResult(model.UniqueKey);
     /// </summary>
-    public class button_View : UserControl, doIUIModuleView, button_IMethod
+    public class do_Button_View : UserControl, doIUIModuleView, do_Button_IMethod
     {
         /// <summary>
         /// 每个UIview都会引用一个具体的model实例；
         /// </summary>
-        private button_MAbstract model;
+        private do_Button_MAbstract model;
         Button btn = new Button();
-        public  button_View()
+        public do_Button_View()
         {
-            
+
         }
         /// <summary>
         /// 初始化加载view准备,_doUIModule是对应当前UIView的model实例
         /// </summary>
         /// <param name="_doComponentUI"></param>
-        public async void LoadView(doUIModule _doUIModule)
+        public void LoadView(doUIModule _doUIModule)
         {
-            this.model = (button_MAbstract)_doUIModule;
+            this.model = (do_Button_MAbstract)_doUIModule;
             btn.Click += btn_Click;
             btn.Tapped += btn_Tapped;
             this.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Left;
             this.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Top;
             this.Content = btn;
-            this.Background = new SolidColorBrush(Colors.Red);
-            this.Foreground = new SolidColorBrush(Colors.Blue);
-
-
-            this.Background =await GetImg("resource.img.png");
+            btn.MinWidth = 0;
+            btn.MinHeight = 0;
+            //this.Background =await GetImg("resource.img.png");
         }
 
         void btn_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            doInvokeResult _invokeResult = this.model.CurrentPage.ScriptEngine.CreateInvokeResult(this.model.UniqueKey);
-            this.model.EventCenter.FireEvent("touchup", _invokeResult);
+            doInvokeResult _invokeResult = new doInvokeResult(this.model.UniqueKey);
+            this.model.EventCenter.FireEvent("touchUp", _invokeResult);
             this.model.EventCenter.FireEvent("touch", _invokeResult);
         }
 
         void btn_Click(object sender, RoutedEventArgs e)
         {
-            doInvokeResult _invokeResult = this.model.CurrentPage.ScriptEngine.CreateInvokeResult(this.model.UniqueKey);
-            this.model.EventCenter.FireEvent("touchdown", _invokeResult);
+            doInvokeResult _invokeResult = new doInvokeResult(this.model.UniqueKey);
+            this.model.EventCenter.FireEvent("touchDown", _invokeResult);
         }
         public doUIModule GetModel()
         {
@@ -111,8 +109,6 @@ namespace do_Button.extimplement
         public async void OnPropertiesChanged(Dictionary<string, string> _changedValues)
         {
             doUIModuleHelper.HandleBasicViewProperChanged(this.model, _changedValues);
-            btn.Width = this.Width;
-            btn.Height = this.Height;
             if (_changedValues.Keys.Contains("text"))
             {
                 btn.Content = _changedValues["text"];
@@ -129,16 +125,15 @@ namespace do_Button.extimplement
             {
                 btn.FontSize = Convert.ToDouble(_changedValues["fontSize"]);
             }
+            if (_changedValues.Keys.Contains("fontStyle"))
+            {
+                SetFontStyle(btn, _changedValues["fontStyle"]);
+            }
             if (_changedValues.Keys.Contains("bgImage"))
             {
                 string bgimage = doIOHelper.GetLocalFileFullPath(this.model.CurrentPage.CurrentApp, _changedValues["bgImage"]);
                 btn.Background = await doIOHelper.GetImageBrushFromUrl(bgimage);
             }
-            //if (_changedValues.Keys.Contains("radius"))
-            //{
-            //    btn.conc(Convert.ToDouble(_changedValues["radius"]), this.Width, this.Height);
-            //} 
-            
         }
         /// <summary>
         /// 同步方法，JS脚本调用该组件对象方法时会被调用，可以根据_methodName调用相应的接口实现方法；
@@ -177,8 +172,11 @@ namespace do_Button.extimplement
         {
             var tp = doUIModuleHelper.GetThickness(this.model);
             this.Margin = tp.Item1;
-            this.Width = tp.Item2;
-            this.Height = tp.Item3;
+            btn.Margin = new Thickness(0);
+            btn.Width = tp.Item2;
+            btn.Height = tp.Item3;
+            //btn.SetRadius(Convert.ToDouble(this.model.GetPropertyValue("radius")), this.Width, this.Height);
+
         }
         /// <summary>
         /// 释放资源处理，前端JS脚本调用closePage或执行removeui时会被调用；
@@ -186,6 +184,22 @@ namespace do_Button.extimplement
         public void OnDispose()
         {
 
+        }
+        private void SetFontStyle(Button tb, string fontstyle)
+        {
+            if (fontstyle.ToLower() == "normal")
+            {
+                tb.FontStyle = Windows.UI.Text.FontStyle.Normal;
+                tb.FontWeight = Windows.UI.Text.FontWeights.Normal;
+            }
+            else if (fontstyle.ToLower() == "bold")
+            {
+                tb.FontWeight = Windows.UI.Text.FontWeights.Bold;
+            }
+            else if (fontstyle.ToLower() == "italic")
+            {
+                tb.FontStyle = Windows.UI.Text.FontStyle.Italic;
+            }
         }
     }
 }
