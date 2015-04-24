@@ -37,7 +37,7 @@ import doext.define.do_Button_MAbstract;
  * 参数解释：@_messageName字符串事件名称，@jsonResult传递事件参数对象； 获取DoInvokeResult对象方式new
  * DoInvokeResult(this.model.getUniqueKey());
  */
-public class do_Button_View extends Button implements DoIUIModuleView, do_Button_IMethod, OnTouchListener, OnClickListener {
+public class do_Button_View extends Button implements DoIUIModuleView, do_Button_IMethod, OnTouchListener,OnClickListener {
 
 	/**
 	 * 每个UIview都会引用一个具体的model实例；
@@ -88,8 +88,8 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 		 */
 		this.setTextSize(TypedValue.COMPLEX_UNIT_PX, DoUIModuleHelper.getDeviceFontSize(_doUIModule, "9"));
 		this.setFocusable(false);
-		this.setOnTouchListener(this);
 		this.setOnClickListener(this);
+		this.setOnTouchListener(this);
 	}
 
 	/**
@@ -178,9 +178,17 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 	public void onDispose() {
 		// ...do something
 	}
-
+	
 	@Override
-	public boolean onTouch(View v, MotionEvent event) {
+	public boolean onTouchEvent(MotionEvent event) {
+		if(!this.model.getEventCenter().containsEvent("touch")){
+			return false;
+		}
+		return super.onTouchEvent(event);
+	}
+	
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {	
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			doButtonView_TouchDown();
