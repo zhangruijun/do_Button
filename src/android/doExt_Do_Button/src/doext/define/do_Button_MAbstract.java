@@ -1,8 +1,8 @@
 package doext.define;
 
-import core.object.DoUIModule;
 import core.object.DoProperty;
 import core.object.DoProperty.PropertyDataType;
+import core.object.DoUIModule;
 
 
 public abstract class do_Button_MAbstract extends DoUIModule{
