@@ -1,7 +1,7 @@
 package doext.implement;
 
 import java.util.Map;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -37,6 +37,7 @@ import doext.define.do_Button_MAbstract;
  * 参数解释：@_messageName字符串事件名称，@jsonResult传递事件参数对象； 获取DoInvokeResult对象方式new
  * DoInvokeResult(this.model.getUniqueKey());
  */
+@SuppressLint("ClickableViewAccessibility")
 public class do_Button_View extends Button implements DoIUIModuleView, do_Button_IMethod, OnTouchListener,OnClickListener {
 
 	/**
