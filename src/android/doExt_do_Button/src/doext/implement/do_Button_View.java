@@ -127,7 +127,7 @@ public class do_Button_View extends Button implements DoIUIModuleView, do_Button
 		String _bgImage = _changedValues.get("bgImage");
 		if (_bgImage != null) {
 			String _bgImageFillPath = DoIOHelper.getLocalFileFullPath(this.model.getCurrentPage().getCurrentApp(), _bgImage);
-			Bitmap _bitmap = DoImageLoadHelper.getInstance().loadLocal(_bgImageFillPath);
+			Bitmap _bitmap = DoImageLoadHelper.getInstance().loadLocal(_bgImageFillPath,(int)this.model.getRealWidth(), (int)this.model.getRealHeight());
 			BitmapDrawable _bitmapDrawable = null;
 			if (_bitmap != null) {
 				_bitmapDrawable = new BitmapDrawable(DoResourcesHelper.getResources(), _bitmap);
